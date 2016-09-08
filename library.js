@@ -43,10 +43,6 @@ var library = {
     const trackIds = playlist.tracks;
     console.log( `${playlist.id}: ${playlist.name} - ${trackIds.length} tracks`);
 
-    //loop through tracks of the playlist
-
-    //or map the tracks of the playlist, and lookup the track and return the track object
-
     var objArray = trackIds.map(function(trackId) {
       return this.tracks[trackId];
     }.bind(this))
