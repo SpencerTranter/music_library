@@ -23,51 +23,39 @@ var library = {
              },
 
   printPlaylists:  function () {
-    for (var list in this.playlists) {
-      console.log(playlistPrint = this.playlists[list].id + ': ' + this.playlists[list].name + ' - ' +
-      this.playlists[list].tracks.length + ' tracks');
+    const playlist = this.playlists;
+    for (var list in playlists) {
+      console.log(`${playlists[list].id}: ${playlists[list].name} - ${playlists[list].tracks.length} tracks`);
     }
   },
 
   printTracks: function () {
-    for (var track in this.tracks) {
-      console.log(trackPrint = this.tracks[track].id + ': ' + this.tracks[track].name + ' by ' + this.tracks[track].artist
-      + ' (' + this.tracks[track].album + ')');
+    const tracks = this.tracks;
+    for (var track in tracks) {
+      console.log(`${tracks[track].id}: ${tracks[track].name} by ${tracks[track].artist} (${tracks[track].album})`);
     }
   },
 
   printPlaylist: function (playlistId) {
-    for (var list in this.playlists) {
+    const playlist = this.playlists[playlistId];
+    const trackIds = playlist.tracks;
+    console.log( `${playlist.id}: ${playlist.name} - ${trackIds.length} tracks`);
 
-      if (this.playlists[list].id === playlistId)  {
-         console.log(playlistPrint = this.playlists[list].id + ': ' + this.playlists[list].name + ' - ' +
-          this.playlists[list].tracks.length + ' tracks');
+    var tracks = trackIds.map(function(trackId){
+      return this.tracks[trackId];
+    }.bind(this))
 
-        for (var i = 0; i < this.playlists[list].tracks.length; i++) {
-
-          for (var track in this.tracks) {
-
-            if (this.playlists[list].tracks[i] === this.tracks[track].id)  {
-              console.log(trackPrint = this.tracks[track].id + ': ' + this.tracks[track].name + ' by ' + this.tracks[track].artist
-              + ' (' + this.tracks[track].album + ')');
-            }
-          }
-        }
-      }
-    }
+    tracks.forEach(function(track){
+      console.log(`${track.id}: ${track.name} by ${track.artist} (${track.album})`);
+    })
   },
 
   addTrackToPlaylist: function (trackId, playlistId) {
-    for (var track in this.tracks) {
-      if(trackId === this.tracks[track].id){
-        for (var list in this.playlists) {
-          if(playlistId === this.playlists[list].id){
-            this.playlists[list].tracks.push(this.tracks[track].id);
-          }
-          console.log(this.playlists[list].tracks);
-        }
-      }
-    }
+    const track = this.tracks[trackId];
+    const playlist = this.playlists[playlistId];
+
+    playlist.tracks.push(track.id);
+    console.log(playlist);
   },
 
   uid: function() {
@@ -75,25 +63,24 @@ var library = {
   },
 
   addTrack: function (name, artist, album) {
+    const tracks = this.tracks;
     var identity = this.uid();
-    this.tracks[identity] = {};
-    this.tracks[identity].id = identity;
-    this.tracks[identity].name = name;
-    this.tracks[identity].artist = artist;
-    this.tracks[identity].album = album;
-    //console.log(this.tracks[identity]);
+    tracks[identity]= {};
+    tracks[identity].id = identity;
+    tracks[identity].name = name;
+    tracks[identity].artist = artist;
+    tracks[identity].album = album;
   },
 
   addPlaylist: function (name) {
+    const playlists = this.playlists
     var identity = this.uid();
-    this.playlists[identity] = {};
-    this.playlists[identity].id = identity;
-    this.playlists[identity].name = name;
-    //console.log(library.playlists);
+    playlists[identity] = {};
+    playlists[identity].id = identity;
+    playlists[identity].name = name;
   },
 
 }
-
 
 //const playlistPrint = library.playlists[list].id + ': ' + library.playlists[list].name + ' - ' +
 //    library.playlists[list].tracks.length + ' tracks'
@@ -218,5 +205,13 @@ var library = {
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/search
 
 var printSearchResults = function(query) {
+  var caseQuery = query.toLowerCase();
+
 
 }
+
+var name = 'bob'
+somestring = `
+ there was a cat and he was called ${name}
+`
+
