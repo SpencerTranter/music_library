@@ -23,16 +23,18 @@ var library = {
              },
 
   printPlaylists:  function () {
-    const playlist = this.playlists;
+    const playlists = this.playlists;
     for (var list in playlists) {
-      console.log(`${playlists[list].id}: ${playlists[list].name} - ${playlists[list].tracks.length} tracks`);
+      var currentList = playlists[list];
+      console.log(`${currentList.id}: ${currentList.name} - ${currentList.tracks.length} tracks`);
     }
   },
 
   printTracks: function () {
     const tracks = this.tracks;
     for (var track in tracks) {
-      console.log(`${tracks[track].id}: ${tracks[track].name} by ${tracks[track].artist} (${tracks[track].album})`);
+      var currentTrack = tracks[track];
+      console.log(`${currentTrack.id}: ${currentTrack.name} by ${currentTrack.artist} (${currentTrack.album})`);
     }
   },
 
@@ -41,11 +43,15 @@ var library = {
     const trackIds = playlist.tracks;
     console.log( `${playlist.id}: ${playlist.name} - ${trackIds.length} tracks`);
 
-    var tracks = trackIds.map(function(trackId){
+    //loop through tracks of the playlist
+
+    //or map the tracks of the playlist, and lookup the track and return the track object
+
+    var objArray = trackIds.map(function(trackId) {
       return this.tracks[trackId];
     }.bind(this))
 
-    tracks.forEach(function(track){
+    objArray.forEach(function(track){
       console.log(`${track.id}: ${track.name} by ${track.artist} (${track.album})`);
     })
   },
@@ -65,22 +71,26 @@ var library = {
   addTrack: function (name, artist, album) {
     const tracks = this.tracks;
     var identity = this.uid();
-    tracks[identity]= {};
-    tracks[identity].id = identity;
-    tracks[identity].name = name;
-    tracks[identity].artist = artist;
-    tracks[identity].album = album;
+    tracks[identity]= {id: identity, name: name, artist: artist, album: album};
   },
 
   addPlaylist: function (name) {
     const playlists = this.playlists
     var identity = this.uid();
-    playlists[identity] = {};
-    playlists[identity].id = identity;
-    playlists[identity].name = name;
+    playlists[identity] = {id: identity, name: name};
   },
 
 }
+
+//TESTS
+// library.printPlaylists();
+//library.printTracks();
+//library.printPlaylist("p01");
+//library.addTrackToPlaylist("t01", "p02");
+// library.addTrack("songggg", "artistttt", "albumnnn");
+// library.addPlaylist("myPlaylist");
+// console.log(library.tracks);
+// console.log(library.playlists)
 
 //const playlistPrint = library.playlists[list].id + ': ' + library.playlists[list].name + ' - ' +
 //    library.playlists[list].tracks.length + ' tracks'
