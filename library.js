@@ -1,3 +1,5 @@
+"use strict";
+
 function Library(name, creator) {
   this.name = name;
   this.creator = creator;
@@ -7,102 +9,132 @@ function Library(name, creator) {
 function Playlist(name){
   this.name = name;
   this.tracks = [];
+  this.overall_rating = 0;
+  this.total_duration = 0;
+};
+
+Playlist.prototype.get_overall_rating = function() {
+  let sum = 0;
+  this.tracks.forEach((curr) => {
+    sum += curr.rating;
+  })
+  return Math.round(sum/this.tracks.length);
+};
+
+Playlist.prototype.get_total_duration = function() {
+  let sum = 0;
+  this.tracks.forEach((curr) => {
+    sum += curr.length;
+  })
+  return Math.round(sum/60) + ' minutes';
 };
 
 function Track(title, rating, length){
   this.title = title;
   this.rating = rating;
   this.length = length;
+};
 
-}
+let my_library = new Library('My Library', 'spencer');
+let cool_playlist = new Playlist('Cool');
+let track_1 = new Track('One', 5, 180);
+let track_2 = new Track('Two', 3, 150);
+let track_3 = new Track('Three', 4, 200);
+
+cool_playlist.tracks.push(track_1, track_2, track_3);
+my_library.playlists.push(cool_playlist);
+
+// console.log(my_library);
+// console.log(my_library.playlists);
+// console.log(cool_playlist);
+// console.log(cool_playlist.tracks);
+console.log(cool_playlist.get_overall_rating());
+console.log(cool_playlist.get_total_duration());
 
 
 
 
 
 
+// var library = {
+//   tracks: { t01: { id: "t01",
+//                    name: "Code Monkey",
+//                    artist: "Jonathan Coulton",
+//                    album: "Thing a Week Three" },
+//             t02: { id: "t02",
+//                    name: "Model View Controller",
+//                    artist: "James Dempsey",
+//                    album: "WWDC 2003"},
+//             t03: { id: "t03",
+//                    name: "Four Thirty-Three",
+//                    artist: "John Cage",
+//                    album: "Woodstock 1952"}
+//           },
+//   playlists: { p01: { id: "p01",
+//                       name: "Coding Music",
+//                       tracks: ["t01", "t02"]
+//                     },
+//                p02: { id: "p02",
+//                       name: "Other Playlist",
+//                       tracks: ["t03"]
+//                     }
+//              },
 
+//   printPlaylists:  function () {
+//     const playlists = this.playlists;
+//     for (var list in playlists) {
+//       var currentList = playlists[list];
+//       console.log(`${currentList.id}: ${currentList.name} - ${currentList.tracks.length} tracks`);
+//     }
+//   },
 
+//   printTracks: function () {
+//     const tracks = this.tracks;
+//     for (var track in tracks) {
+//       var currentTrack = tracks[track];
+//       console.log(`${currentTrack.id}: ${currentTrack.name} by ${currentTrack.artist} (${currentTrack.album})`);
+//     }
+//   },
 
-var library = {
-  tracks: { t01: { id: "t01",
-                   name: "Code Monkey",
-                   artist: "Jonathan Coulton",
-                   album: "Thing a Week Three" },
-            t02: { id: "t02",
-                   name: "Model View Controller",
-                   artist: "James Dempsey",
-                   album: "WWDC 2003"},
-            t03: { id: "t03",
-                   name: "Four Thirty-Three",
-                   artist: "John Cage",
-                   album: "Woodstock 1952"}
-          },
-  playlists: { p01: { id: "p01",
-                      name: "Coding Music",
-                      tracks: ["t01", "t02"]
-                    },
-               p02: { id: "p02",
-                      name: "Other Playlist",
-                      tracks: ["t03"]
-                    }
-             },
+//   printPlaylist: function (playlistId) {
+//     const playlist = this.playlists[playlistId];
+//     const trackIds = playlist.tracks;
+//     console.log( `${playlist.id}: ${playlist.name} - ${trackIds.length} tracks`);
 
-  printPlaylists:  function () {
-    const playlists = this.playlists;
-    for (var list in playlists) {
-      var currentList = playlists[list];
-      console.log(`${currentList.id}: ${currentList.name} - ${currentList.tracks.length} tracks`);
-    }
-  },
+//     var objArray = trackIds.map(function(trackId) {
+//       return this.tracks[trackId];
+//     }.bind(this))
 
-  printTracks: function () {
-    const tracks = this.tracks;
-    for (var track in tracks) {
-      var currentTrack = tracks[track];
-      console.log(`${currentTrack.id}: ${currentTrack.name} by ${currentTrack.artist} (${currentTrack.album})`);
-    }
-  },
+//     objArray.forEach(function(track){
+//       console.log(`${track.id}: ${track.name} by ${track.artist} (${track.album})`);
+//     })
+//   },
 
-  printPlaylist: function (playlistId) {
-    const playlist = this.playlists[playlistId];
-    const trackIds = playlist.tracks;
-    console.log( `${playlist.id}: ${playlist.name} - ${trackIds.length} tracks`);
+//   addTrackToPlaylist: function (trackId, playlistId) {
+//     const track = this.tracks[trackId];
+//     const playlist = this.playlists[playlistId];
 
-    var objArray = trackIds.map(function(trackId) {
-      return this.tracks[trackId];
-    }.bind(this))
+//     playlist.tracks.push(track.id);
+//     console.log(playlist);
+//   },
 
-    objArray.forEach(function(track){
-      console.log(`${track.id}: ${track.name} by ${track.artist} (${track.album})`);
-    })
-  },
+//   uid: function() {
+//     return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+//   },
 
-  addTrackToPlaylist: function (trackId, playlistId) {
-    const track = this.tracks[trackId];
-    const playlist = this.playlists[playlistId];
+//   addTrack: function (name, artist, album) {
+//     const tracks = this.tracks;
+//     var identity = this.uid();
+//     tracks[identity]= {id: identity, name: name, artist: artist, album: album};
+//   },
 
-    playlist.tracks.push(track.id);
-    console.log(playlist);
-  },
+//   addPlaylist: function (name) {
+//     const playlists = this.playlists
+//     var identity = this.uid();
+//     playlists[identity] = {id: identity, name: name};
+//   },
 
-  uid: function() {
-    return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
-  },
-
-  addTrack: function (name, artist, album) {
-    const tracks = this.tracks;
-    var identity = this.uid();
-    tracks[identity]= {id: identity, name: name, artist: artist, album: album};
-  },
-
-  addPlaylist: function (name) {
-    const playlists = this.playlists
-    var identity = this.uid();
-    playlists[identity] = {id: identity, name: name};
-  },
-
-}
+// }
 
 //TESTS
 // library.printPlaylists();
@@ -236,14 +268,8 @@ var library = {
 // tip: use "string".search("tri")
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/search
 
-var printSearchResults = function(query) {
-  var caseQuery = query.toLowerCase();
+// var printSearchResults = function(query) {
+//   var caseQuery = query.toLowerCase();
+// }
 
-
-}
-
-var name = 'bob'
-somestring = `
- there was a cat and he was called ${name}
-`
 
