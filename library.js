@@ -1,3 +1,29 @@
+function Library(name, creator) {
+  this.name = name;
+  this.creator = creator;
+  this.playlists = [];
+};
+
+function Playlist(name){
+  this.name = name;
+  this.tracks = [];
+};
+
+function Track(title, rating, length){
+  this.title = title;
+  this.rating = rating;
+  this.length = length;
+
+}
+
+
+
+
+
+
+
+
+
 var library = {
   tracks: { t01: { id: "t01",
                    name: "Code Monkey",
